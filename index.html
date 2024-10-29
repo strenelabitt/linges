@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistant Lavage</title>
+    <title>Assistant Machine à Laver</title>
     <style>
         :root {
             --background: #121212;
@@ -11,6 +11,7 @@
             --primary: #BB86FC;
             --text: #ffffff;
             --text-secondary: #b0b0b0;
+            --warning: #FFB74D;
         }
 
         * {
@@ -28,16 +29,16 @@
         }
 
         .container {
-            width: 100%;
             max-width: 800px;
             margin: 0 auto;
+            padding: 0 20px;
         }
 
         h1 {
             color: var(--primary);
+            text-align: center;
             margin-bottom: 2rem;
             font-size: 1.8rem;
-            text-align: center;
         }
 
         .form-group {
@@ -47,30 +48,29 @@
             margin-bottom: 1.5rem;
         }
 
-        .placeholder-text {
-            color: var(--text-secondary);
-            padding: 1rem;
-        }
-
         .category-title {
             color: var(--primary);
             font-size: 1.2rem;
-            margin: 1.5rem 0 1rem 0;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--primary);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
         }
 
         .item-button {
-            display: inline-block;
             background: #2d2d2d;
             color: var(--text);
-            padding: 0.8rem 1.2rem;
-            margin: 0.4rem;
             border: none;
+            padding: 0.8rem 1.2rem;
             border-radius: 20px;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.95rem;
+            transition: background-color 0.2s;
         }
 
         .item-button:hover {
@@ -82,33 +82,20 @@
             color: black;
         }
 
-        #selectedItems {
-            margin: 1rem 0;
-            padding: 1rem;
-            min-height: 60px;
-            background: #2d2d2d;
-            border-radius: 8px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .selected-item {
-            background: var(--primary);
-            color: black;
-            padding: 0.5rem 1rem;
-            border-radius: 16px;
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
         }
 
         select {
             width: 100%;
-            padding: 1rem;
-            margin-top: 0.5rem;
+            padding: 0.8rem;
             background: #2d2d2d;
             color: var(--text);
             border: 1px solid #3d3d3d;
             border-radius: 8px;
-            font-size: 1rem;
+            margin-bottom: 1rem;
         }
 
         .action-button {
@@ -121,15 +108,60 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 1rem;
-            font-size: 1rem;
+        }
+
+        #selectedItems {
+            min-height: 50px;
+            padding: 1rem;
+            background: #2d2d2d;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .selected-item {
+            background: var(--primary);
+            color: black;
+            padding: 0.5rem 1rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        #results {
+            margin-top: 2rem;
+        }
+
+        .result-group {
+            background: #2d2d2d;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .result-title {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+        }
+
+        .result-content {
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-message {
+            background: #3d3d3d;
+            color: var(--warning);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
         }
 
         .hidden {
             display: none;
-        }
-
-        .category {
-            margin-bottom: 2rem;
         }
     </style>
 </head>
@@ -144,14 +176,13 @@
 
             <div class="category">
                 <div class="category-title">Vêtements courants</div>
-                <div>
+                <div class="buttons-container">
                     <button class="item-button" data-value="T-shirt">T-shirt</button>
                     <button class="item-button" data-value="Pull">Pull</button>
                     <button class="item-button" data-value="Sweat">Sweat</button>
                     <button class="item-button" data-value="Jean">Jean</button>
                     <button class="item-button" data-value="Pantalon">Pantalon</button>
                     <button class="item-button" data-value="Chemise">Chemise</button>
-                    <button class="item-button" data-value="Chaussettes">Chaussettes</button>
                     <button class="item-button" data-value="Sous-vêtements">Sous-vêtements</button>
                     <button class="item-button" data-value="Pyjama">Pyjama</button>
                     <button class="item-button" data-value="Short">Short</button>
@@ -164,7 +195,7 @@
 
             <div class="category">
                 <div class="category-title">Linge de maison</div>
-                <div>
+                <div class="buttons-container">
                     <button class="item-button" data-value="Draps">Draps</button>
                     <button class="item-button" data-value="Serviettes">Serviettes</button>
                     <button class="item-button" data-value="Taies d'oreiller">Taies d'oreiller</button>
@@ -177,7 +208,7 @@
 
             <div class="category">
                 <div class="category-title">Vêtements de sport</div>
-                <div>
+                <div class="buttons-container">
                     <button class="item-button" data-value="Maillot de sport">Maillot de sport</button>
                     <button class="item-button" data-value="Legging">Legging</button>
                     <button class="item-button" data-value="Short de sport">Short de sport</button>
@@ -188,7 +219,7 @@
         </div>
 
         <div class="form-group">
-            <label>Couleur dominante</label>
+            <label for="color">Couleur dominante</label>
             <select id="color">
                 <option value="">Sélectionnez la couleur</option>
                 <option value="blanc">Blanc</option>
@@ -198,7 +229,7 @@
         </div>
 
         <div class="form-group">
-            <label>Niveau de saleté</label>
+            <label for="soil">Niveau de saleté</label>
             <select id="soil">
                 <option value="">Sélectionnez le niveau</option>
                 <option value="leger">Légèrement sale</option>
@@ -207,14 +238,15 @@
             </select>
         </div>
 
-        <button class="action-button" onclick="analyserLinge()">Obtenir les recommandations de lavage</button>
-        
+        <button class="action-button" onclick="getRecommandations()">Obtenir les recommandations</button>
+
         <div id="results" class="hidden"></div>
     </div>
 
     <script>
         let selectedItems = new Set();
 
+        // Gestion des boutons de sélection
         document.querySelectorAll('.item-button').forEach(button => {
             button.addEventListener('click', function() {
                 const value = this.dataset.value;
@@ -235,13 +267,12 @@
                 container.innerHTML = '<span class="placeholder-text">Sélectionnez vos types de linge...</span>';
                 return;
             }
-            
-            container.innerHTML = Array.from(selectedItems).map(item => 
-                `<div class="selected-item">${item}</div>`
-            ).join('');
+            container.innerHTML = Array.from(selectedItems)
+                .map(item => `<div class="selected-item">${item}</div>`)
+                .join('');
         }
 
-        function analyserLinge() {
+        function getRecommandations() {
             const color = document.getElementById('color').value;
             const soil = document.getElementById('soil').value;
             const resultsDiv = document.getElementById('results');
@@ -251,7 +282,104 @@
                 return;
             }
 
-            // Logique d'analyse et recommandations à implémenter...
+            const groupes = groupeVetements(Array.from(selectedItems));
+            let html = '';
+
+            // Vérifier s'il y a plusieurs groupes
+            const groupesNonVides = Object.values(groupes).filter(g => g.length > 0);
+            if (groupesNonVides.length > 1) {
+                html += `
+                    <div class="warning-message">
+                        <strong>⚠️ Attention :</strong> Pour de meilleurs résultats, il est recommandé de séparer votre linge en plusieurs lavages.
+                    </div>
+                `;
+            }
+
+            // Générer les recommandations pour chaque groupe
+            Object.entries(groupes).forEach(([type, items]) => {
+                if (items.length > 0) {
+                    const recommandations = getRecommandationsLavage(type, soil, color);
+                    html += createRecommandationHTML(type, items, recommandations);
+                }
+            });
+
+            resultsDiv.innerHTML = html;
+            resultsDiv.classList.remove('hidden');
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function groupeVetements(items) {
+            const groupes = {
+                delicat: [],
+                resistant: [],
+                normal: [],
+                sport: []
+            };
+
+            items.forEach(item => {
+                const itemLower = item.toLowerCase();
+                if (['chemise', 'robe', 'sous-vêtements', 'délicat'].some(v => itemLower.includes(v))) {
+                    groupes.delicat.push(item);
+                } else if (['jean', 'serviettes', 'draps', 'torchons'].some(v => itemLower.includes(v))) {
+                    groupes.resistant.push(item);
+                } else if (['sport', 'legging', 'maillot'].some(v => itemLower.includes(v))) {
+                    groupes.sport.push(item);
+                } else {
+                    groupes.normal.push(item);
+                }
+            });
+
+            return groupes;
+        }
+
+        function getRecommandationsLavage(type, soil, color) {
+            const recommandations = {
+                delicat: {
+                    programme: 'Délicat',
+                    temperature: soil === 'tres' ? '40°C' : '30°C',
+                    conseils: 'Utilisez un filet de lavage et une lessive pour linge délicat'
+                },
+                resistant: {
+                    programme: 'Intensif',
+                    temperature: soil === 'leger' ? '40°C' : '60°C',
+                    conseils: 'Programme long avec plus d\'action mécanique'
+                },
+                sport: {
+                    programme: 'Sport',
+                    temperature: '30°C',
+                    conseils: 'Utilisez une lessive spéciale textiles synthétiques'
+                },
+                normal: {
+                    programme: 'Normal',
+                    temperature: soil === 'tres' ? '40°C' : '30°C',
+                    conseils: 'Programme standard adapté'
+                }
+            };
+
+            return recommandations[type];
+        }
+
+        function createRecommandationHTML(type, items, recommandations) {
+            return `
+                <div class="result-group">
+                    <div class="result-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+                    <div class="result-content">
+                        <strong>Articles :</strong>
+                        <ul>
+                            ${items.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="result-content">
+                        <strong>Programme :</strong> ${recommandations.programme}
+                    </div>
+                    <div class="result-content">
+                        <strong>Température :</strong> ${recommandations.temperature}
+                    </div>
+                    <div class="result-content">
+                        <strong>Conseils :</strong> ${recommandations.conseils}
+                    </div>
+                </div>
+            `;
         }
     </script>
 </body>
