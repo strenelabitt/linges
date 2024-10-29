@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant Lavage</title>
+    <style>
+        :root {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --primary: #BB86FC;
+            --text: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .form-group {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .placeholder-text {
+            color: var(--text-secondary);
+            padding: 1rem;
+        }
+
+        .category-title {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin: 1.5rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .item-button {
+            display: inline-block;
+            background: #2d2d2d;
+            color: var(--text);
+            padding: 0.8rem 1.2rem;
+            margin: 0.4rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .item-button:hover {
+            background: #3d3d3d;
+        }
+
+        .item-button.selected {
+            background: var(--primary);
+            color: black;
+        }
+
+        #selectedItems {
+            margin: 1rem 0;
+            padding: 1rem;
+            min-height: 60px;
+            background: #2d2d2d;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .selected-item {
+            background: var(--primary);
+            color: black;
+            padding: 0.5rem 1rem;
+            border-radius: 16px;
+        }
+
+        select {
+            width: 100%;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            background: #2d2d2d;
+            color: var(--text);
+            border: 1px solid #3d3d3d;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .category {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Assistant Machine à Laver</h1>
+
+        <div class="form-group">
+            <div id="selectedItems">
+                <span class="placeholder-text">Sélectionnez vos types de linge...</span>
+            </div>
+
+            <div class="category">
+                <div class="category-title">Vêtements courants</div>
+                <div>
+                    <button class="item-button" data-value="T-shirt">T-shirt</button>
+                    <button class="item-button" data-value="Pull">Pull</button>
+                    <button class="item-button" data-value="Sweat">Sweat</button>
+                    <button class="item-button" data-value="Jean">Jean</button>
+                    <button class="item-button" data-value="Pantalon">Pantalon</button>
+                    <button class="item-button" data-value="Chemise">Chemise</button>
+                    <button class="item-button" data-value="Chaussettes">Chaussettes</button>
+                    <button class="item-button" data-value="Sous-vêtements">Sous-vêtements</button>
+                    <button class="item-button" data-value="Pyjama">Pyjama</button>
+                    <button class="item-button" data-value="Short">Short</button>
+                    <button class="item-button" data-value="Robe">Robe</button>
+                    <button class="item-button" data-value="Jupe">Jupe</button>
+                    <button class="item-button" data-value="Gilet">Gilet</button>
+                    <button class="item-button" data-value="Veste légère">Veste légère</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="category-title">Linge de maison</div>
+                <div>
+                    <button class="item-button" data-value="Draps">Draps</button>
+                    <button class="item-button" data-value="Serviettes">Serviettes</button>
+                    <button class="item-button" data-value="Taies d'oreiller">Taies d'oreiller</button>
+                    <button class="item-button" data-value="Housse de couette">Housse de couette</button>
+                    <button class="item-button" data-value="Torchons">Torchons</button>
+                    <button class="item-button" data-value="Nappes">Nappes</button>
+                    <button class="item-button" data-value="Rideaux">Rideaux</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="category-title">Vêtements de sport</div>
+                <div>
+                    <button class="item-button" data-value="Maillot de sport">Maillot de sport</button>
+                    <button class="item-button" data-value="Legging">Legging</button>
+                    <button class="item-button" data-value="Short de sport">Short de sport</button>
+                    <button class="item-button" data-value="Survêtement">Survêtement</button>
+                    <button class="item-button" data-value="Maillot de bain">Maillot de bain</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Couleur dominante</label>
+            <select id="color">
+                <option value="">Sélectionnez la couleur</option>
+                <option value="blanc">Blanc</option>
+                <option value="couleur">Couleur</option>
+                <option value="noir">Noir/Foncé</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Niveau de saleté</label>
+            <select id="soil">
+                <option value="">Sélectionnez le niveau</option>
+                <option value="leger">Légèrement sale</option>
+                <option value="normal">Normal</option>
+                <option value="tres">Très sale</option>
+            </select>
+        </div>
+
+        <button class="action-button" onclick="analyserLinge()">Obtenir les recommandations de lavage</button>
+        
+        <div id="results" class="hidden"></div>
+    </div>
+
+    <script>
+        let selectedItems = new Set();
+
+        document.querySelectorAll('.item-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const value = this.dataset.value;
+                if (this.classList.contains('selected')) {
+                    selectedItems.delete(value);
+                    this.classList.remove('selected');
+                } else {
+                    selectedItems.add(value);
+                    this.classList.add('selected');
+                }
+                updateSelectedItemsDisplay();
+            });
+        });
+
+        function updateSelectedItemsDisplay() {
+            const container = document.getElementById('selectedItems');
+            if (selectedItems.size === 0) {
+                container.innerHTML = '<span class="placeholder-text">Sélectionnez vos types de linge...</span>';
+                return;
+            }
+            
+            container.innerHTML = Array.from(selectedItems).map(item => 
+                `<div class="selected-item">${item}</div>`
+            ).join('');
+        }
+
+        function analyserLinge() {
+            const color = document.getElementById('color').value;
+            const soil = document.getElementById('soil').value;
+            const resultsDiv = document.getElementById('results');
+
+            if (selectedItems.size === 0 || !color || !soil) {
+                alert('Veuillez sélectionner au moins un type de linge et remplir tous les champs');
+                return;
+            }
+
+            // Logique d'analyse et recommandations à implémenter...
+        }
+    </script>
+</body>
+</html>
